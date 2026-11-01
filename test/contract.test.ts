@@ -64,5 +64,5 @@ test('failure to open the database transaction remains retryable by the webhook 
 test('legacy health middleware accepts every HTTP method at its exact URL', async () => {
   await request(app.getHttpServer()).get('/health').expect(200, { checksRun: 1 });
   await request(app.getHttpServer()).post('/health').expect(200, { checksRun: 1 });
-  await request(app.getHttpServer()).get('/health?query=1').expect(404);
+  await request(app.getHttpServer()).get('/health?query=1').expect('Content-Type', /text\/html/).expect(404);
 });
