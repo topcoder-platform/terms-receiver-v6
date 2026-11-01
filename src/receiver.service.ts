@@ -24,8 +24,10 @@ export class ReceiverService {
     let envelope: { id: string; userId: bigint; docusignTemplateId: string } | null = null;
     let agreement: Record<string, unknown> | undefined;
     let foundMapping = false;
+    let transactionStarted = false;
     try {
       await this.db.$transaction(async tx => {
+        transactionStarted = true;
         envelope = await tx.docusignEnvelope.findFirst({ where: { id: { equals: normalized, mode: 'insensitive' } } });
         if (!envelope) return;
         await tx.docusignEnvelope.update({ where: { id: envelope.id }, data: { isCompleted: 1n } });
@@ -41,6 +43,7 @@ export class ReceiverService {
         agreement = { userId: envelope.userId, termsOfUseId: mapping.termsOfUseId, legacyId: term.legacyId, created };
       });
     } catch (error: any) {
+      if (!transactionStarted) throw error;
       const failedEnvelope = envelope as { id: string; userId: bigint; docusignTemplateId: string } | null;
       const params = { subject: config.DOCUSIGN.CALLBACK_FAILED_EMAIL_SUBJECT, toAddress: config.DOCUSIGN.CALLBACK_FAILED_SUPPORT_EMAIL_ADDRESS, fromAddress: config.DOCUSIGN.CALLBACK_FAILED_FROM_EMAIL_ADDRESS, userId: failedEnvelope?.userId, templateId: failedEnvelope?.docusignTemplateId, envelopeId: failedEnvelope?.id || normalized, message: error.message };
       void this.api.publishSafely(config.TERMS_EMAIL_SUPPORT_TOPIC, { payload: { data: params, version: 'v3', recipients: [params.toAddress], from: { name: 'Terms receiver', email: params.fromAddress } } });

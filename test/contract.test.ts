@@ -52,3 +52,12 @@ test('transaction commits agreement before optional publications; duplicate deli
   assert.equal(published.filter(topic => topic === config.USER_AGREED_TERMS_TOPIC).length, 1);
   assert.equal(await db.userTermsOfUseXref.count({ where: { userId: 321n, termsOfUseId: id } }), 1);
 });
+test('failure to open the database transaction remains retryable by the webhook sender', async () => {
+  const failure = new Error('Database unavailable');
+  const db = { $transaction: async () => { throw failure; } };
+  let published = false;
+  const api = { publishSafely: async () => { published = true; } };
+  const service = new ReceiverService(db as any, api as any);
+  await assert.rejects(service.callback({ envelopeId: 'envelope', status: 'Completed' }), failure);
+  assert.equal(published, false);
+});
