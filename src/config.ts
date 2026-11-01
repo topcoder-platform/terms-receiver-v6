@@ -18,7 +18,7 @@ export const config = {
   BUSAPI_URL: process.env.BUSAPI_URL || 'https://api.topcoder-dev.com/v5',
   KAFKA_ERROR_TOPIC: process.env.KAFKA_ERROR_TOPIC || 'common.error.reporting',
   KAFKA_MESSAGE_ORIGINATOR: process.env.KAFKA_MESSAGE_ORIGINATOR || 'terms-receiver',
-  TERMS_EMAIL_SUPPORT_TOPIC: process.env.TERMS_UPDATE_TOPIC || 'terms.action.email.support',
+  TERMS_EMAIL_SUPPORT_TOPIC: process.env.TERMS_EMAIL_SUPPORT_TOPIC || process.env.TERMS_UPDATE_TOPIC || 'terms.action.email.support',
   DOCUSIGN_ENVELOPE_UPDATE_TOPIC: process.env.DOCUSIGN_ENVELOPE_UPDATE_TOPIC || 'terms.notification.docusign.envelope.updated',
   USER_AGREED_TERMS_TOPIC: process.env.USER_AGREED_TERMS_TOPIC || 'terms.notification.user.agreed',
   USER_TAXFORM_UPDATE_TOPIC: process.env.USER_TAXFORM_UPDATE_TOPIC || 'terms.notification.user.taxform.updated',
