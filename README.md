@@ -15,3 +15,5 @@ Production approval happens in GitHub when the PR from `develop` to `master` is 
 GitHub runs CodeQL with extended security queries and Dependabot checks npm, Docker, and Actions dependencies. Runtime configuration retains legacy names so existing secret values can be reused.
 
 The deployment uses a Node-based container health check, so the runtime image does not need curl. Re-running a commit reuses its immutable, scanned ECR image; an already-current ECS task is left in place. A new commit builds and scans a new image before updating the task. Application parameters live under `/config/terms-receiver-v6/appvar/`.
+
+Shared M2M token acquisition, caching, and Bus API publishing use `tc-core-library-js` pinned to `v4.0.0-rc.1`. Event envelopes and best-effort publication behavior are preserved.
