@@ -16,4 +16,4 @@ GitHub runs CodeQL with extended security queries and Dependabot checks npm, Doc
 
 The deployment preserves the Node-based container health check, so the runtime image does not need curl. Images use immutable commit/build-number release tags and ECS runs the scanned digest. Each retry publishes under its own build number. Roles, resources, networking and SSM references remain intact, and a rollback fails the release. Application parameters live under `/config/terms-receiver-v6/appvar/`; the deployment identity cannot read their values.
 
-Shared M2M token acquisition, caching, and Bus API publishing use `tc-core-library-js` pinned to `v4.0.0-rc.1`. Event envelopes and best-effort publication behavior are preserved.
+Shared M2M token acquisition, caching, and Bus API publishing use `tc-core-library-js` pinned to the verified-email v4 backport (`c2df92b2227089909ab6e229df0ec6b658bb431a`). Event envelopes and best-effort publication behavior are preserved.
