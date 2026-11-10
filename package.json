@@ -23,11 +23,11 @@
     "@prisma/client": "7.10.1",
     "express": "^5.3.0",
     "finalhandler": "2.1.1",
-    "jose": "6.2.15",
     "pg": "8.23.1",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
-    "xml2js": "0.6.2"
+    "xml2js": "0.6.2",
+    "tc-core-library-js": "https://codeload.github.com/topcoder-platform/tc-core-library-js/tar.gz/c2df92b2227089909ab6e229df0ec6b658bb431a"
   },
   "devDependencies": {
     "@types/express": "5.0.6",
@@ -39,6 +39,7 @@
     "prisma": "7.10.1",
     "supertest": "7.3.1",
     "tsx": "4.23.15",
-    "typescript": "7.0.2"
+    "typescript": "7.0.2",
+    "jose": "6.2.15"
   }
 }
