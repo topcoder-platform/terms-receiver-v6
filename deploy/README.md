@@ -23,7 +23,9 @@ Runtime requirements:
 
 ## Production releases
 
-Merge `develop` into `master` to release production. CircleCI runs application verification, deployment checks, and the image build before `deploy-prod` uses the `terms-receiver-v6-prod-deploy` context and `CIRCLE_OIDC_TOKEN_V3` to assume `arn:aws:iam::409275337247:role/terms-receiver-v6-prod-deploy`. The repository, checkout branch, and configuration branch must match the production trust policy. Tags and other branches cannot deploy production. No static AWS credentials or Auth0 broker are used.
+Merge `develop` into `master` to prepare a production release. CircleCI runs application verification, deployment checks, and the image build, then pauses at the `approve-prod` approval job. Open the pipeline's `build` workflow in CircleCI and approve `approve-prod` to release the built image, or cancel the workflow to stop the release. The approval job runs only on `master`; development deployments remain automatic.
+
+After approval, `deploy-prod` uses the `terms-receiver-v6-prod-deploy` context and `CIRCLE_OIDC_TOKEN_V3` to assume `arn:aws:iam::409275337247:role/terms-receiver-v6-prod-deploy`. The repository, checkout branch, and configuration branch must match the production trust policy. Tags and other branches cannot deploy production. No static AWS credentials or Auth0 broker are used.
 
 Every release requires a healthy v6 ECS service with positive desired capacity, circuit-breaker rollback, an immutable scan-enabled ECR repository, production runtime SecureStrings, and the health check in `health-checks.json`. Runtime provisioning and load-balancer cutover are managed separately from application releases. Normal releases preserve routing and update only the v6 service. The release fails if the image scan or healthy-task verification fails.
 

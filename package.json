@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@nestjs/common": "12.3.2",
-    "@nestjs/core": "12.3.2",
+    "@nestjs/core": "12.4.2",
     "@nestjs/platform-express": "12.3.2",
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
@@ -37,9 +37,9 @@
     "@types/supertest": "7.2.1",
     "@types/xml2js": "0.4.14",
     "prisma": "7.10.1",
-    "supertest": "7.3.1",
+    "supertest": "7.3.2",
     "tsx": "4.23.15",
     "typescript": "7.0.2",
-    "jose": "6.2.15"
+    "jose": "6.2.17"
   }
 }

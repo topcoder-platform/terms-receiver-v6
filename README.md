@@ -10,7 +10,7 @@ In ECS, every configuration setting is injected through a Parameter Store `Secur
 
 CircleCI verifies contracts and dependencies, then builds committed source in a job without a deployment context. A separate job uses CircleCI OIDC v3 and the SHA-pinned `tc-deploy-scripts` v2.0.9 suite to publish the prebuilt image, require a fresh scan with no medium/high/critical/undefined findings, and promote its digest to the existing ECS service. `develop` targets dev and `master` targets production after verification and build pass. Deployment uses reviewed JSON manifests and the `terms-receiver-v6-dev-deploy` / `terms-receiver-v6-prod-deploy` contexts, with no Auth0 broker or static AWS credential fallback. See [deployment setup](deploy/README.md) for the installed IAM/context identities and production prerequisites and merge-based releases.
 
-Production approval happens in GitHub when the PR from `develop` to `master` is reviewed and merged. CircleCI has no separate approval job.
+After the PR from `develop` to `master` is reviewed and merged, CircleCI runs verification and builds the image, then waits at `approve-prod`. Open the `build` workflow in CircleCI and approve `approve-prod` to start `deploy-prod`. Development deployments run automatically after verification and build pass.
 
 GitHub runs CodeQL with extended security queries and Dependabot checks npm, Docker, and Actions dependencies. Runtime configuration retains legacy names so existing secret values can be reused.
 
